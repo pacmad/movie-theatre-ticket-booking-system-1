@@ -10,18 +10,30 @@
       <input type="text" name="fname" value=""><br>
       <label for="Mobile No.">Mobile No.</label><br>
       <input type="text" name="Mnum" value=""><br><br>
-      <label for="timings">Show timings.</label><br>
+      <label> Date <input name='date' type = "date"> </label><br><br>
+      <label for="timings">Select Show timings.</label><br>
 
         <input type="radio"  name="time" value="12:00">
-        <label for="male">12:00</label>
+        <label >12:00</label>
         <input type="radio"  name="time" value="17:00">
-        <label for="female">17:00</label>
+        <label >17:00</label>
+        <input type="radio"  name="time" value="19:00">
+        <label >19:00</label>
         <input type="radio"  name="time" value="21:00">
         <label for="other">21:00</label><br> <br>
 
       <input type="submit" value="Submit">
 
     </form>
+    {% with messages = get_flashed_messages() %}
+  {% if messages %}
+
+    {% for message in messages %}
+      <h3>{{ message }}</h3>
+    {% endfor %}
+
+  {% endif %}
+{% endwith %}
 
   </body>
 </html>

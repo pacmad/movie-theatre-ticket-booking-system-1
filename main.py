@@ -9,10 +9,7 @@ app.secret_key = "jvcewihvdkc oeoerjfvgermcverio"
 client=pymongo.MongoClient('mongodb://127.0.0.1:27017/')
 mydb=client['tickets']
 coll=mydb.collection
-
-#
-#
-#
+ind=mydb.indexes
 #
 # def time():
 #     for i in coll.find():
@@ -37,16 +34,31 @@ def book():
 def bookticket():
     name=request.form['fname']
     num=request.form['Mnum']
+    date=request.form['date']
     showtime=request.form['time']
-    print(name,num,showtime)
+
+    for i in ind.find({}):
+        Tno=i[showtime]
+
     user={
             'Name':name,
             'Mobile Number':num,
-            'Showtiming':showtime
-            # "$currentDate":{'booked at':True}
+            'Showtiming':showtime,
+            'date':date,
+            'Ticket No':Tno
             }
-    coll.insert_one(user)
-    return "Booked"
+
+    if ((showtime=='12:00' and Tno<21) or (showtime=='17:00' and Tno<41) or (showtime=='19:00' and Tno<61) or (showtime=='21:00' and Tno<81) ):
+        coll.insert_one(user)
+
+        ind.update_one(
+        {'id':'ind'},
+        {"$set":{showtime:Tno+1}}
+        )
+        flash('Ticket Booked')
+    else :
+        flash('House Full')
+    return render_template('booktickets.html')
 
 @app.route('/view')
 def view():
@@ -61,10 +73,16 @@ def viewall():
 
     return render_template('view1.html',time=time,list1=list1)
 
+
+@app.route('/expired',methods=['GET','POST'])
+def expired():
+    coll.find({})
+
 # @app.route('/view all tickets')
 # def view_all(time):
 #     for i in coll.find({'showtime':time}):
 #         print(i)
 
 if __name__ == '__main__':
+    app.debug = True
     app.run()
