@@ -3,6 +3,7 @@ from bson.objectid import ObjectId
 from flask import Flask, redirect, url_for, request, render_template,flash,session
 
 app = Flask(__name__)
+app.secret_key = "jvcewihvdkc oeoerjfvgermcverio"
 
 
 client=pymongo.MongoClient('mongodb://127.0.0.1:27017/')
@@ -46,18 +47,19 @@ def bookticket():
             }
     coll.insert_one(user)
     return "Booked"
-# def book_ticket():
-#     name=input('name ')
-#     num=input('Number ')
-#     showtime=input('time ')
-#
-#     test={
-#         'name':name,
-#         'number':num,
-#         'showtime':showtime,
-#         # "$currentDate":{'booked at':True}
-#         }
-#     coll.insert_one(test)
+
+@app.route('/view')
+def view():
+    return render_template('view.html')
+
+@app.route('/viewall',methods=['GET','POST'])
+def viewall():
+    time=request.form['time']
+    list1=[]
+    for i in coll.find({'Showtiming':time}):
+        list1.append(i)
+
+    return render_template('view1.html',time=time,list1=list1)
 
 # @app.route('/view all tickets')
 # def view_all(time):

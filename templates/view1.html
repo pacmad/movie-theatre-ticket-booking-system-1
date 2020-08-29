@@ -5,8 +5,10 @@
     <title></title>
   </head>
   <body>
-    <li> <a href="{{url_for('book')}}">Book Tickets</a></li>
-    <li> <a href="{{url_for('view')}}">view all Tickets</a></li>
+    <h2>Tickets for {{time}} show </h2><br>
 
+    {% for i in list1 %}
+    <l1>{{i}}</l1></br><br>
+    {% endfor%}
   </body>
 </html>
