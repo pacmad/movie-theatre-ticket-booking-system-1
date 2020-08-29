@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <body>
+    <form class="" action="{{url_for('update')}}" method="post">
+
+      <label >Enter Ticket No.</label><br>
+      <input type="number" name="Tno"><br><br>
+      <label for="">Select New Showtiming</label>
+      <input type="radio"  name="time" value="12:00">
+      <label for="male">12:00</label>
+      <input type="radio"  name="time" value="17:00">
+      <label for="female">17:00</label>
+      <input type="radio"  name="time" value="19:00">
+      <label for="female">19:00</label>
+      <input type="radio"  name="time" value="21:00">
+      <label for="other">21:00</label><br> <br>
+
+      <input type="submit" value="Update">
+
+    </form>
+    {% with messages = get_flashed_messages() %}
+  {% if messages %}
+
+    {% for message in messages %}
+      <h3>{{ message }}</h3>
+    {% endfor %}
+
+  {% endif %}
+{% endwith %}
+
+
+  </body>
+</html>

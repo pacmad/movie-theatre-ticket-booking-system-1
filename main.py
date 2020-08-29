@@ -10,17 +10,6 @@ client=pymongo.MongoClient('mongodb://127.0.0.1:27017/')
 mydb=client['tickets']
 coll=mydb.collection
 ind=mydb.indexes
-#
-# def time():
-#     for i in coll.find():
-#         print(i)
-#         id=i['_id']
-#         print(id)
-#         print(id.generation_time)
-#
-# book_ticket()
-# view_all("19:30")
-
 
 @app.route('/')
 def hello():
@@ -59,6 +48,21 @@ def bookticket():
     else :
         flash('House Full')
     return render_template('booktickets.html')
+
+@app.route('/update1')
+def update1():
+    return render_template('update.html')
+
+@app.route('/update',methods=['GET','POST'])
+def update():
+    Tno=request.form['Tno']
+    time=request.form['time']
+    coll.update_one(
+    {'Ticket No':int(Tno)},
+    {"$set":{'Showtiming':time}}
+    )
+    flash("Timing Changed to "+ time)
+    return render_template('update.html')
 
 @app.route('/view')
 def view():
