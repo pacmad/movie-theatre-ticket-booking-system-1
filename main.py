@@ -77,6 +77,16 @@ def viewall():
 
     return render_template('view1.html',time=time,list1=list1)
 
+@app.route('/delete1')
+def delete1():
+    return render_template('delete.html')
+
+@app.route('/delete',methods=['GET','POST'])
+def delete():
+    Tno=request.form['Tno']
+    coll.delete_one({'Ticket No':int(Tno)})
+    flash('Deleted!')
+    return render_template('delete.html')
 
 @app.route('/expired',methods=['GET','POST'])
 def expired():
