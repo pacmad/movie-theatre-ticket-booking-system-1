@@ -88,6 +88,24 @@ def delete():
     flash('Deleted!')
     return render_template('delete.html')
 
+@app.route('/details1')
+def details1():
+    return render_template('details.html')
+
+@app.route('/details',methods=['GET','POST'])
+def details():
+    Tno=request.form['Tno']
+    detail=[]
+    for i in coll.find({'Ticket No':int(Tno)}):
+        detail.append(i['Ticket No'])
+        detail.append(i['Name'])
+        detail.append(i['Mobile Number'])
+        detail.append(i['Showtiming'])
+        detail.append(i['date'])
+    flash(detail)
+    return render_template('details.html')
+
+
 @app.route('/expired',methods=['GET','POST'])
 def expired():
     coll.find({})

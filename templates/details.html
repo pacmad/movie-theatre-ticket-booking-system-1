@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <body>
+    <form class="" action="{{url_for('details')}}" method="post">
+
+      <label >Enter Ticket No.</label><br>
+      <input type="number" name="Tno"><br><br>
+
+      <input type="submit" value="Get Details">
+
+    </form>
+    {% with detail = get_flashed_messages() %}
+  {% if detail %}
+  <ul>
+    <li>Ticket Number: {{detail[0][0]}}</li>
+    <li>Name: {{detail[0][1]}}</li>
+    <li>Mobile Number: {{detail[0][2]}}</li>
+    <li>Showtiming: {{detail[0][3]}}</li>
+    <li>Date: {{detail[0][4]}}</li>
+
+  </ul>
+  {% endif %}
+{% endwith %}
+
+  </body>
+</html>
