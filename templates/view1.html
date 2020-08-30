@@ -5,14 +5,17 @@
     <title></title>
   </head>
   <body>
+    <div style="text-align:center;margin-top:55px">
+
     <h2>Tickets for {{time}} show </h2><br>
     <p>Ticket number & Names are displayed respectively</p>
     <ul>
-      {% for i in list1 %}
-      <li>{{i[0]}}=> {{i[1]}}
 
-      </li>
+      {% for i in list1 %}
+      <li>{{i[0]}} -> {{i[1]}}</li>
       {% endfor %}
+
     </ul>
+  </div>
   </body>
 </html>

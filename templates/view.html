@@ -5,8 +5,10 @@
     <title></title>
   </head>
   <body>
-    <form class="" action="{{url_for('viewall')}}" method="post">
+    <div style="text-align:center;margin-top:55px">
 
+    <form class="" action="{{url_for('viewall')}}" method="post">
+      <label for="">Select Show Timings</label><br>
         <input type="radio"  name="time" value="12:00">
         <label for="male">12:00</label>
         <input type="radio"  name="time" value="17:00">
@@ -19,6 +21,7 @@
       <input type="submit" value="Submit">
 
     </form>
+  </div>
 
   </body>
 </html>

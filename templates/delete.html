@@ -5,12 +5,14 @@
     <title></title>
   </head>
   <body>
+    <div style="text-align:center;margin-top:55px">
+
     <form class="" action="{{url_for('delete')}}" method="post">
 
       <label >Enter Ticket No.</label><br>
       <input type="number" name="Tno"><br><br>
 
-      <label for="">Are you Sure?</label> 
+      <label for="">Are you Sure?</label>
       <input type="submit" value="Delete">
 
     </form>
@@ -23,5 +25,6 @@
 
   {% endif %}
 {% endwith %}
+</div>
   </body>
 </html>
