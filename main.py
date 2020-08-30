@@ -27,22 +27,26 @@ def bookticket():
     showtime=request.form['time']
 
     for i in ind.find({}):
-        Tno=i[showtime]
+        Tno=i['num']
 
     user={
+            'Ticket No':Tno,
             'Name':name,
             'Mobile Number':num,
             'Showtiming':showtime,
-            'date':date,
-            'Ticket No':Tno
+            'date':date
             }
 
-    if ((showtime=='12:00' and Tno<21) or (showtime=='17:00' and Tno<41) or (showtime=='19:00' and Tno<61) or (showtime=='21:00' and Tno<81) ):
+    c=0
+    for i in coll.find({'Showtiming':showtime}):
+        c+=1
+
+    if (c<21):
         coll.insert_one(user)
 
         ind.update_one(
         {'id':'ind'},
-        {"$set":{showtime:Tno+1}}
+        {"$set":{'num':Tno+1}}
         )
         flash('Ticket Booked')
     else :
