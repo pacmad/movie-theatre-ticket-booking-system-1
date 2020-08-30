@@ -77,9 +77,11 @@ def viewall():
     time=request.form['time']
     list1=[]
     for i in coll.find({'Showtiming':time}):
-        list1.append(i)
+        list1.append((i['Ticket No'],i['Name']))
 
-    return render_template('view1.html',time=time,list1=list1)
+    l=len(list1)
+    print(list1)
+    return render_template('view1.html',l=l,time=time,list1=list1)
 
 @app.route('/delete1')
 def delete1():

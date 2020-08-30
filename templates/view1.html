@@ -6,10 +6,13 @@
   </head>
   <body>
     <h2>Tickets for {{time}} show </h2><br>
-    <ol>
-    {% for i in list1 %}
-    <l1>{{i}}</l1></br><br>
-    {% endfor%}
-  </ol>
+    <p>Ticket number & Names are displayed respectively</p>
+    <ul>
+      {% for i in list1 %}
+      <li>{{i[0]}}=> {{i[1]}}
+
+      </li>
+      {% endfor %}
+    </ul>
   </body>
 </html>
