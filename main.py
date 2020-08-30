@@ -18,7 +18,6 @@ def expired():
     for i in coll.find({}):
         Tno=i['Ticket No']
         str1=(i['date'])+' '+(i['Showtiming'])
-        print(str1)
         tz = pytz.timezone('Asia/Kolkata')
 
         a= datetime.datetime.strptime(str1, '%Y-%m-%d %H:%M')
@@ -62,7 +61,7 @@ def bookticket():
             'date':date
             }
     expired()
-    print('obe')
+
     c=0
     for i in coll.find({'Showtiming':showtime}):
         c+=1
