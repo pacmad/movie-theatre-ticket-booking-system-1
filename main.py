@@ -1,6 +1,8 @@
 import pymongo
 from bson.objectid import ObjectId
 from flask import Flask, redirect, url_for, request, render_template,flash,session
+import datetime
+import pytz
 
 app = Flask(__name__)
 app.secret_key = "jvcewihvdkc oeoerjfvgermcverio"
@@ -10,6 +12,28 @@ client=pymongo.MongoClient('mongodb://127.0.0.1:27017/')
 mydb=client['tickets']
 coll=mydb.collection
 ind=mydb.indexes
+
+
+def expired():
+    for i in coll.find({}):
+        Tno=i['Ticket No']
+        str1=(i['date'])+' '+(i['Showtiming'])
+        print(str1)
+        tz = pytz.timezone('Asia/Kolkata')
+
+        a= datetime.datetime.strptime(str1, '%Y-%m-%d %H:%M')
+        a= a.replace(tzinfo=tz)
+        b= datetime.datetime.now(tz)
+        if (b>a):
+            time_elapsed = b - a
+            str2=str(time_elapsed)
+            if (len(str2.split(':')[0])>2 ):
+                coll.delete_one({'Ticket No':int(Tno)})
+            else:
+                str2=str2.split(':')[0]
+                if (int(str2)>7):
+                    coll.delete_one({'Ticket No':int(Tno)})
+
 
 @app.route('/')
 def hello():
@@ -21,6 +45,7 @@ def book():
 
 @app.route('/bookticket',methods=['GET','POST'])
 def bookticket():
+
     name=request.form['fname']
     num=request.form['Mnum']
     date=request.form['date']
@@ -36,7 +61,8 @@ def bookticket():
             'Showtiming':showtime,
             'date':date
             }
-
+    expired()
+    print('obe')
     c=0
     for i in coll.find({'Showtiming':showtime}):
         c+=1
@@ -112,9 +138,10 @@ def details():
     return render_template('details.html')
 
 
-@app.route('/expired',methods=['GET','POST'])
-def expired():
-    coll.find({})
+
+
+
+    # print(time_elapsed)
 
 # @app.route('/view all tickets')
 # def view_all(time):
