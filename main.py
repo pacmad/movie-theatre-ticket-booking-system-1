@@ -13,7 +13,7 @@ mydb=client['tickets']
 coll=mydb.collection
 ind=mydb.indexes
 
-
+## this function will mark tickets as expired if there is a difference of 8 hrs  & will delete it automatically
 def expired():
     for i in coll.find({}):
         Tno=i['Ticket No']
@@ -61,11 +61,11 @@ def bookticket():
             'date':date
             }
     expired()
-
+## using index database to generate unique ticket no.
     c=0
     for i in coll.find({'Showtiming':showtime}):
         c+=1
-
+## will prevent ticket booking if already 20 tickets are booked for that show
     if (c<21):
         coll.insert_one(user)
 
@@ -84,6 +84,7 @@ def update1():
 
 @app.route('/update',methods=['GET','POST'])
 def update():
+## will recieve ticket no. and showtime from form & update timings accordingly
     Tno=request.form['Tno']
     time=request.form['time']
     coll.update_one(
@@ -101,6 +102,7 @@ def view():
 def viewall():
     time=request.form['time']
     list1=[]
+## searching through database with enetered showtime tickets and displaying them
     for i in coll.find({'Showtiming':time}):
         list1.append((i['Ticket No'],i['Name']))
 
@@ -114,6 +116,8 @@ def delete1():
 
 @app.route('/delete',methods=['GET','POST'])
 def delete():
+## searching through database with enetered ticket no. and deleting it
+
     Tno=request.form['Tno']
     coll.delete_one({'Ticket No':int(Tno)})
     flash('Deleted!')
@@ -127,6 +131,8 @@ def details1():
 def details():
     Tno=request.form['Tno']
     detail=[]
+    ##displaying user data in list form after searching through database with enetered ticket no.
+
     for i in coll.find({'Ticket No':int(Tno)}):
         detail.append(i['Ticket No'])
         detail.append(i['Name'])
@@ -135,17 +141,6 @@ def details():
         detail.append(i['date'])
     flash(detail)
     return render_template('details.html')
-
-
-
-
-
-    # print(time_elapsed)
-
-# @app.route('/view all tickets')
-# def view_all(time):
-#     for i in coll.find({'showtime':time}):
-#         print(i)
 
 if __name__ == '__main__':
     app.debug = True
